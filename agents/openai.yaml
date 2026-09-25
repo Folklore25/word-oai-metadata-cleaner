@@ -1,0 +1,4 @@
+interface:
+  display_name: "Word OAI Metadata Cleaner"
+  short_description: "Inspect and clean Word metadata and OAI references"
+  default_prompt: "Inspect this Word file for ChatGPT/OpenAI metadata or URLs, then clean only the metadata while preserving visible document content unless I ask otherwise."
