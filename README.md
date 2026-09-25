@@ -14,19 +14,44 @@ A Codex skill and standalone Python utility for inspecting and conservatively cl
 
 The tool is intentionally conservative. Removing metadata does not prove authorship, remove copies stored elsewhere, or guarantee anonymity.
 
-## Install as a Codex skill
+## Repository layout
 
-```bash
-git clone https://github.com/Folklore25/word-oai-metadata-cleaner.git \
-  ~/.codex/skills/word-oai-metadata-cleaner
+```text
+skills/
+└── word-oai-metadata-cleaner/
+    ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
+    └── scripts/
+        └── sanitize_docx_metadata.py
 ```
 
-The skill entrypoint is [`SKILL.md`](SKILL.md). The utility uses only the Python standard library and requires Python 3.10 or newer.
+## Add to CC Switch
+
+Add this repository as a custom skill repository using:
+
+- Repository: `https://github.com/Folklore25/word-oai-metadata-cleaner.git`
+- Branch: `main`
+- Subdirectory: `skills`
+
+CC Switch can then discover `word-oai-metadata-cleaner` beneath the configured subdirectory.
+
+## Install manually as a Codex skill
+
+```bash
+git clone https://github.com/Folklore25/word-oai-metadata-cleaner.git
+mkdir -p ~/.codex/skills
+cp -R word-oai-metadata-cleaner/skills/word-oai-metadata-cleaner \
+  ~/.codex/skills/
+```
+
+The skill entrypoint is [`skills/word-oai-metadata-cleaner/SKILL.md`](skills/word-oai-metadata-cleaner/SKILL.md). The utility uses only the Python standard library and requires Python 3.10 or newer.
 
 ## Scan a DOCX
 
 ```bash
-python scripts/sanitize_docx_metadata.py document.docx --scan
+python skills/word-oai-metadata-cleaner/scripts/sanitize_docx_metadata.py \
+  document.docx --scan
 ```
 
 Use `--json` when machine-readable findings are needed.
@@ -34,7 +59,8 @@ Use `--json` when machine-readable findings are needed.
 ## Clean targeted OAI metadata
 
 ```bash
-python scripts/sanitize_docx_metadata.py document.docx \
+python skills/word-oai-metadata-cleaner/scripts/sanitize_docx_metadata.py \
+  document.docx \
   --output document-sanitized.docx
 ```
 
@@ -43,7 +69,8 @@ This preserves visible text and ordinary hyperlinks.
 ## Remove OAI hyperlink destinations
 
 ```bash
-python scripts/sanitize_docx_metadata.py document.docx \
+python skills/word-oai-metadata-cleaner/scripts/sanitize_docx_metadata.py \
+  document.docx \
   --output document-sanitized.docx \
   --remove-ai-hyperlinks
 ```
